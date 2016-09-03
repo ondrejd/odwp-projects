@@ -1,6 +1,5 @@
 <?php
 /**
-/**
  * Meta box "Links".
  *
  * @author Ondřej Doněk, <ondrejd@gmail.com>
@@ -8,7 +7,6 @@
  * @link https://github.com/ondrejd/odwp-projects for the canonical source repository
  * @package odwp-projects
  * @since 1.0
- */
  */
 
 if ( ! class_exists( 'Odwpp_Project_Links_Metabox' ) ):
