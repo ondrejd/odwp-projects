@@ -64,14 +64,15 @@ class Odwpp_Project_Post_Type {
 			'not_found_in_trash' => __( 'Žádné projekty nebyly v koši nalezeny.', Odwp_Projects_Plugin::SLUG ),
 			'all_items' => __( 'Všechny projekty', Odwp_Projects_Plugin::SLUG ),
 			'archives' => __( 'Archív projektů', Odwp_Projects_Plugin::SLUG ),
-			'menu_name' => __( 'Projekty', Odwp_Projects_Plugin::SLUG )
+			'menu_name' => __( 'Projekty', Odwp_Projects_Plugin::SLUG ),
+			'parent_item_colon' => __( 'Nadřazený projekt:', Odwp_Projects_Plugin::SLUG ),
 		);
 
 		$args = array(
 			'labels' => $labels,
-			'hierarchical' => false,
+			'hierarchical' => true,
 			'description' => __( 'Projekty...', Odwp_Projects_Plugin::SLUG ),
-			'supports' => array( 'title', 'editor', 'thumbnail', 'comments', 'revisions'/*, 'custom-fields'*/ ),
+			'supports' => array( 'title', 'editor', 'thumbnail', 'comments', 'revisions'/*, 'custom-fields'*/, 'page-attributes' ),
 			'taxonomies' => array( 'post_tag' ),
 			'show_ui' => true,
 			'show_in_menu' => true,
@@ -83,7 +84,7 @@ class Odwpp_Project_Post_Type {
 			'query_var' => true,
 			'can_export' => true,
 	        'public' => true,
-	        'has_archive' => 'themes',
+	        'has_archive' => true,
 	        'capability_type' => 'post',
 		);
 
@@ -100,7 +101,7 @@ class Odwpp_Project_Post_Type {
 	}
 }
 
-endif;
+endif; // Odwpp_Project_Post_Type
 
 // Initialize custom post type
 Odwpp_Project_Post_Type::get_instance();
