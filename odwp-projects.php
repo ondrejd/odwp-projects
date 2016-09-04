@@ -78,6 +78,7 @@ class Odwp_Projects_Plugin {
 	 * - {@see Odwpp_Project_Repository_Metabox}. ...
 	 * - {@see Odwpp_Project_Links_Metabox}. ...
 	 * - {@see Odwpp_Project_Slug_Metabox}. ...
+	 * - {@see Odwpp_Project_Status_Taxonomy}. ...
 	 *
 	 * @access private
 	 * @since 1.0
@@ -92,6 +93,7 @@ class Odwp_Projects_Plugin {
 			$this->plugin_path( 'includes/class-odwpp_project_repository_metabox.php' ),
 			$this->plugin_path( 'includes/class-odwpp_project_links_metabox.php' ),
 			$this->plugin_path( 'includes/class-odwpp_project_slug_metabox.php' ),
+			$this->plugin_path( 'includes/class-odwpp_project_status_metabox.php' ),
 		);
 
 		// Load all files (it throws error when file failed to be included but
