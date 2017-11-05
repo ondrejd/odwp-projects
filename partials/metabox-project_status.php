@@ -6,17 +6,15 @@
  * @license https://www.mozilla.org/MPL/2.0/ Mozilla Public License 2.0
  * @link https://github.com/ondrejd/odwp-projects for the canonical source repository
  * @package odwp-projects
- * @since 1.0
+ * @since 0.1.0
  */
 ?><div class="project_status_metabox">
-	<input type="hidden" name="<?php echo Odwpp_Project_Status_Metabox::NONCE; ?>" value="<?php echo $nonce; ?>">
-	<p>
-		<?php _e( 'Určete stav projektu:', Odwp_Projects_Plugin::SLUG ); ?>
-		<select name="project_status" id="odwpp-project_status" value="<?php echo $value; ?>">
-			<option value="active"<?php selected( 'active', $value ); ?>><?php _e( 'Aktivní', Odwp_Projects_Plugin::SLUG ); ?></option>
-			<option value="nonactive"<?php selected( 'nonactive', $value ); ?>><?php _e( 'Neaktivní', Odwp_Projects_Plugin::SLUG ); ?></option>
-			<option value="finished"<?php selected( 'finished', $value ); ?>><?php _e( 'Dokončený', Odwp_Projects_Plugin::SLUG ); ?></option>
-			<option value="cancelled"<?php selected( 'cancelled', $value ); ?>><?php _e( 'Zrušený', Odwp_Projects_Plugin::SLUG ); ?></option>
-		</select>
-	</p>
+	<input type="hidden" name="<?=Odwpp_Project_Status_Metabox::NONCE?>" value="<?=$nonce; ?>">
+	<label for="odwpp-project_status" class="screen-reader-text"><?php _e( 'Stav projektu:', ODWPP_SLUG )?></label>
+	<select name="project_status" id="odwpp-project_status" value="<?=$value; ?>">
+		<option value="active"<?php selected( 'active', $value )?>><?php _e( 'Aktivní', ODWPP_SLUG )?></option>
+		<option value="nonactive"<?php selected( 'nonactive', $value )?>><?php _e( 'Neaktivní', ODWPP_SLUG )?></option>
+		<option value="finished"<?php selected( 'finished', $value )?>><?php _e( 'Dokončený', ODWPP_SLUG )?></option>
+		<option value="cancelled"<?php selected( 'cancelled', $value )?>><?php _e( 'Zrušený', ODWPP_SLUG )?></option>
+	</select>
 </div>

@@ -6,14 +6,14 @@
  * @license https://www.mozilla.org/MPL/2.0/ Mozilla Public License 2.0
  * @link https://github.com/ondrejd/odwp-projects for the canonical source repository
  * @package odwp-projects
- * @since 1.0
+ * @since 0.1.0
  */
 
 if ( ! class_exists( 'Odwpp_Project_Slug_Metabox' ) ):
 
 /**
  * Meta box "Slug" for {@see Odwpp_Project_Post_Type}.
- * @since 1.0
+ * @since 0.1.0
  */
 class Odwpp_Project_Slug_Metabox {
 	const SLUG = 'odwp_project_slug_metabox';
@@ -21,14 +21,14 @@ class Odwpp_Project_Slug_Metabox {
 
 	/**
 	 * Hook for `admin_init` action. Initialize meta box.
-	 * @since 1.0
+	 * @since 0.1.0
 	 * @uses add_meta_box()
 	 * @uses add_action()
 	 */
 	public static function admin_init() {
 		add_meta_box(
 			self::SLUG,
-			__( 'Systémový název', Odwp_Projects_Plugin::SLUG ),
+			__( 'Systémový název', ODWPP_SLUG ),
 			array( __CLASS__, 'render' ),
 			Odwpp_Project_Post_Type::SLUG,
 			'side',//'normal','side','advanced'
@@ -40,7 +40,7 @@ class Odwpp_Project_Slug_Metabox {
 	/**
 	 * Render meta box.
 	 * @param WP_Post $project
-	 * @since 1.0
+	 * @since 0.1.0
 	 * @uses apply_filters()
 	 * @uses get_post_meta()
 	 * @uses wp_create_nonce()
@@ -51,13 +51,13 @@ class Odwpp_Project_Slug_Metabox {
 		$nonce = wp_create_nonce( self::NONCE );
 
 		ob_start();
-		include( Odwp_Projects_Plugin::plugin_path( 'partials/metabox-project_slug.php' ) );
+		include( ODWPP_PATH . 'partials/metabox-project_slug.php' );
 		$output = ob_get_clean();
 
 		/**
 		 * Filter for project repository meta box.
 		 *
-		 * @since 1.0
+		 * @since 0.1.0
 		 *
 		 * @param string $output Rendered HTML.
 		 */
@@ -70,7 +70,7 @@ class Odwpp_Project_Slug_Metabox {
 	 * @param integer $post_id
 	 * @param WP_Post $post
 	 * @param boolean $update
-	 * @since 1.0
+	 * @since 0.1.0
 	 * @uses wp_verify_nonce()
 	 * @uses current_user_can()
 	 * @uses update_post_meta()
