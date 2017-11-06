@@ -1,29 +1,17 @@
 <?php
 /**
- * Plugin Name: Freelance projects
- * Plugin URI: https://github.com/ondrejd/odwp-projects
- * Description: Plugin for managing and publishing projects on your WordPress sites. It was created to fit my requirements as a freelancer developer but I tried to make it usable for more people.
- * Version: 1.0
- * Author: Ondřej Doněk
- * Author URI: http://ondrejd.com/
- * Requires at least: 4.6
- * Tested up to: 4.7.4
- *
- * Text Domain: odwp-projects
- * Domain Path: /languages/
- *
  * @author Ondřej Doněk, <ondrejd@gmail.com>
  * @license https://www.mozilla.org/MPL/2.0/ Mozilla Public License 2.0
  * @link https://github.com/ondrejd/odwp-projects for the canonical source repository
  * @package odwp-projects
- * @since 1.0
+ * @since 0.1.0
  */
 
 if ( ! class_exists( 'Odwpp_Plugin' ) ):
 
 /**
  * Main class of the plugin.
- * @since 1.0
+ * @since 0.1.0
  */
 class Odwpp_Plugin {
 	const SLUG = ODWPP_SLUG;
@@ -31,21 +19,21 @@ class Odwpp_Plugin {
 
 	/**
 	 * Screens added.
-	 * @since 1.0
+	 * @since 0.1.0
 	 * @var array
 	 */
 	private static $screens = array();
 
 	/**
 	 * Default options of the plugin.
-	 * @since 1.0
+	 * @since 0.1.0
 	 * @var array
 	 */
 	private static $default_options = array();
 
 	/**
 	 * Set up hooks.
-	 * @since 1.0
+	 * @since 0.1.0
 	 * @uses add_action()
 	 * @uses is_admin()
 	 */
@@ -74,7 +62,7 @@ class Odwpp_Plugin {
 	 * - {@see Odwpp_Project_Status_Taxonomy}. ...
 	 *
 	 * @access private
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	private function load_dependencies() {
 		/**
@@ -84,7 +72,6 @@ class Odwpp_Plugin {
 			//ODWPP_PATH . 'includes/class-odwpp_screen_prototype.php',
 			ODWPP_PATH . 'includes/class-odwpp_project_post_type.php',
 			ODWPP_PATH . 'includes/class-odwpp_project_repository_metabox.php',
-			ODWPP_PATH . 'includes/class-odwpp_project_links_metabox.php',
 			ODWPP_PATH . 'includes/class-odwpp_project_slug_metabox.php',
 			ODWPP_PATH . 'includes/class-odwpp_project_status_metabox.php',
 		);
@@ -106,7 +93,7 @@ class Odwpp_Plugin {
 	 *
 	 * @access private
 	 * @param string $method
-	 * @since 0.1.0
+	 * @since 0.0.1.0
 	 */
 	private function screens_call_method( $method ) {
 		foreach ( self::$screens as $slug => $screen ) {
@@ -118,7 +105,7 @@ class Odwpp_Plugin {
 
 	/**
 	 * Load text domain for translations.
-	 * @since 0.1.0
+	 * @since 0.0.1.0
 	 * @uses load_plugin_textdomain()
 	 */
 	public function load_textdomain() {
@@ -127,7 +114,7 @@ class Odwpp_Plugin {
 
 	/**
 	 * Initialize plugin.
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	public function init() {
 		// Ensure that options are initialized
@@ -142,7 +129,7 @@ class Odwpp_Plugin {
 
 	/**
 	 * Action for `admin_init` hook.
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	public function admin_init() {
 		// Call action for `admin_init` hook on all screens.
@@ -151,7 +138,7 @@ class Odwpp_Plugin {
 
 	/**
 	 * Action for `admin_enqueue_scripts` hook.
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	public function admin_enqueue_scripts() {
 		wp_enqueue_style( 'odwpshp-admin-style', plugins_url( 'css/admin.css', __FILE__ ), false );
@@ -163,7 +150,7 @@ class Odwpp_Plugin {
 
 	/**
 	 * Action for `admin_head` hook.
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	public function admin_head() {
 		// Call action for `admin_head` hook on all screens.
@@ -172,7 +159,7 @@ class Odwpp_Plugin {
 
 	/**
 	 * Action for `admin_menu` hook.
-	 * @since 1.0
+	 * @since 0.1.0
 	 */
 	public function admin_menu() {
 		// Call action for `admin_menu` hook on all screens.
@@ -182,7 +169,7 @@ class Odwpp_Plugin {
 	/**
 	 * Returns plugin's options
 	 * @return array
-	 * @since 0.1.0
+	 * @since 0.0.1.0
 	 * @static
 	 * @uses get_option()
 	 * @uses update_option()
@@ -221,7 +208,7 @@ class Odwpp_Plugin {
 	 * @param string $key
 	 * @param boolean $null_if_not_exist Optional. Default TRUE.
 	 * @return mixed Returns empty string if option with given key was not found.
-	 * @since 1.0
+	 * @since 0.1.0
 	 * @static
 	 * @uses get_option()
 	 */
@@ -242,7 +229,7 @@ class Odwpp_Plugin {
 	/**
 	 * Add/register new screen. Is called from the end of screens source files.
 	 * @param Odwpp_Screen_Prototype $creen
-	 * @since 0.1.0
+	 * @since 0.0.1.0
 	 * @static
 	 */
 	public static function add_screen( Odwpp_Screen_Prototype $screen ) {
@@ -253,7 +240,7 @@ class Odwpp_Plugin {
 	 * Returns screen with given slug (`NULL` if screen wasn't found).
 	 * @param string $slug
 	 * @return Odwpp_Screen_Prototype
-	 * @since 0.1.0
+	 * @since 0.0.1.0
 	 * @static
 	 */
 	public static function get_screen( $slug ) {

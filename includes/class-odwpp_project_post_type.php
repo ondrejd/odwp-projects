@@ -1,7 +1,5 @@
 <?php
 /**
- * Custom post type "Project".
- *
  * @author Ondřej Doněk, <ondrejd@gmail.com>
  * @license https://www.mozilla.org/MPL/2.0/ Mozilla Public License 2.0
  * @link https://github.com/ondrejd/odwp-projects for the canonical source repository
@@ -47,8 +45,8 @@ class Odwpp_Project_Post_Type {
 	 * Constructor.
 	 * @access private
 	 * @since 0.1.0
-	 * @uses apply_filters()
-	 * @uses register_post_type()
+	 * @uses apply_filters
+	 * @uses register_post_type
 	 */
 	private function __construct() {
 		$labels = array(
@@ -101,7 +99,7 @@ class Odwpp_Project_Post_Type {
 	}
 }
 
-endif; // Odwpp_Project_Post_Type
+endif;
 
 // Initialize custom post type
 Odwpp_Project_Post_Type::get_instance();
