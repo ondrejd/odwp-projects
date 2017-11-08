@@ -7,6 +7,10 @@
  * @since 0.1.0
  */
 
+if( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 if ( ! class_exists( 'Odwpp_Project_Status_Metabox' ) ):
 
 /**
@@ -47,15 +51,16 @@ class Odwpp_Project_Status_Metabox {
 		$nonce = wp_create_nonce( self::NONCE );
 
 		ob_start();
-		include( ODWPP_PATH . 'partials/metabox-project_status.php' );
+		include( ODWPP_PATH . 'partials/metabox-project_status.phtml' );
 		$output = ob_get_clean();
 
 		/**
-		 * Filter for project repository meta box.
+		 * Filter for project status meta box.
 		 *
 		 * @since 0.1.0
 		 *
 		 * @param string $output Rendered HTML.
+		 * @param WP_Post $project
 		 */
 		$output = apply_filters( self::SLUG, $output, $project );
 		echo $output;
@@ -130,7 +135,12 @@ class Odwpp_Project_Status_Metabox {
 			case 'cancelled' : $label = __( 'Zrušený', ODWPP_SLUG ); break;
 		}
 
-		printf( '<span class="%s">%s</span>', 'project-status project-status-' . $status, $label );
+		printf(
+			'<span id="%s" class="%s">%s</span>',
+			ODWPP_SLUG . '-project_repository-' . $post_id,
+			'project-status project-status-' . $status,
+			$label
+		);
 	}
 
 	/**
@@ -172,6 +182,77 @@ class Odwpp_Project_Status_Metabox {
 
 		return $vars;
 	}
+
+	/**
+	 * @internal Hook for actions `quick_edit_custom_box` and `bulk_edit_custom_box`.
+	 * @param string $column_name
+	 * @param string $post_type
+	 * @return void
+	 * @since 0.2.0
+	 * @todo Finish NONCE field!
+	 */
+	public static function quick_edit( $column_name, $post_type ) {
+		if ( $column_name != self::SLUG || $post_type != Odwpp_Project_Post_Type::SLUG ) {
+			return;
+		}
+
+		$nonce = wp_create_nonce( self::NONCE );
+
+		ob_start();
+		include( ODWPP_PATH . 'partials/metabox-project_status_quickedit.phtml' );
+		$output = ob_get_clean();
+
+		/**
+		 * Filter for project status quick edit box.
+		 *
+		 * @since 0.2.0
+		 *
+		 * @param string $output Rendered HTML.
+		 */
+		$output = apply_filters( self::SLUG . '_quickedit', $output );
+		echo $output;
+	}
+
+	/**
+	 * @internal Hook for `save_post` action (quickedit/bulkactions in list table).
+	 * @param integer $post_id
+	 * @param WP_Post $post
+	 * @return void
+	 * @since 0.2.0
+	 */
+	public static function quick_edit_save_post( $post_id, $post ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		if ( $post->post_type != Odwpp_Project_Post_Type::SLUG ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		$value = filter_input( INPUT_POST, 'project_status' );
+		if ( ! empty( $value ) ) {
+			update_post_meta( $post_id, self::SLUG, $value );
+		}
+	}
+
+	/**
+	 * @internal Hook for `admin_print_scripts-edit.php` action.
+	 * @return void
+	 * @since 0.2.0
+	 */
+	public static function enqueue_edit_scripts() {
+		wp_enqueue_script(
+			ODWPP_SLUG . '-admin-edit-project_status',
+			plugins_url( 'assets/js/admin-status_quickedit.js', ODWPP_FILE ),
+			['jquery', 'inline-edit-post'],
+			'',
+			true
+		);
+	}
 }
 
 endif;
@@ -184,4 +265,8 @@ if ( is_admin() ) {
 	add_action( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_custom_column' , ['Odwpp_Project_Status_Metabox', 'column_body'], 10, 2 );
 	add_filter( 'manage_edit-' . Odwpp_Project_Post_Type::SLUG . '_sortable_columns', ['Odwpp_Project_Status_Metabox', 'column_sortable'] );
 	add_action( 'load-edit.php', ['Odwpp_Project_Status_Metabox', 'column_sort_request'] );
+	add_action( 'quick_edit_custom_box',  ['Odwpp_Project_Status_Metabox', 'quick_edit'], 10, 2 );
+	add_action( 'bulk_edit_custom_box', ['Odwpp_Project_Status_Metabox', 'quick_edit'], 10, 2 );
+	add_action( 'save_post', ['Odwpp_Project_Status_Metabox', 'quick_edit_save_post'], 10, 2 );
+	add_action( 'admin_print_scripts-edit.php', ['Odwpp_Project_Status_Metabox', 'enqueue_edit_scripts'] );
 }

@@ -7,6 +7,10 @@
  * @since 0.1.0
  */
 
+if( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 if ( ! class_exists( 'Odwpp_Project_Repository_Metabox' ) ):
 
 /**
@@ -47,7 +51,7 @@ class Odwpp_Project_Repository_Metabox {
 		$nonce = wp_create_nonce( self::NONCE );
 
 		ob_start();
-		include( ODWPP_PATH . 'partials/metabox-project_repository.php' );
+		include( ODWPP_PATH . 'partials/metabox-project_repository.phtml' );
 		$output = ob_get_clean();
 
 		/**
@@ -56,6 +60,7 @@ class Odwpp_Project_Repository_Metabox {
 		 * @since 0.1.0
 		 *
 		 * @param string $output Rendered HTML.
+		 * @param WP_Post $project
 		 */
 		$output = apply_filters( self::SLUG, $output, $project );
 		echo $output;
@@ -121,9 +126,10 @@ class Odwpp_Project_Repository_Metabox {
 			return;
 		}
 		printf(
-			'<a href="%1$s" target="_blank" title="%2$s">%1$s</a>',
+			'<a href="%1$s" id="%3$s" target="_blank" title="%2$s">%1$s</a>',
 			get_post_meta( $post_id , self::SLUG , true ),
-			__( 'Otevře URL v novém panelu', ODWPP_SLUG )
+			__( 'Otevře URL v novém panelu', ODWPP_SLUG ),
+			ODWPP_SLUG . '-project_repository-' . $post_id
 		);
 	}
 
@@ -166,6 +172,77 @@ class Odwpp_Project_Repository_Metabox {
 
 		return $vars;
 	}
+
+	/**
+	 * @internal Hook for actions `quick_edit_custom_box`.
+	 * @param string $column_name
+	 * @param string $post_type
+	 * @return void
+	 * @since 0.2.0
+	 * @todo Add nonce field!
+	 */
+	public static function quick_edit( $column_name, $post_type ) {
+		if ( $column_name != self::SLUG || $post_type != Odwpp_Project_Post_Type::SLUG ) {
+			return;
+		}
+
+		$nonce = wp_create_nonce( self::NONCE );
+
+		ob_start();
+		include( ODWPP_PATH . 'partials/metabox-project_repository_quickedit.phtml' );
+		$output = ob_get_clean();
+
+		/**
+		 * Filter for project repository quick edit box.
+		 *
+		 * @since 0.2.0
+		 *
+		 * @param string $output Rendered HTML.
+		 */
+		$output = apply_filters( self::SLUG . '_quickedit', $output );
+		echo $output;
+	}
+
+	/**
+	 * @internal Hook for `save_post` action (quickedit in list table).
+	 * @param integer $post_id
+	 * @param WP_Post $post
+	 * @return void
+	 * @since 0.2.0
+	 */
+	public static function quick_edit_save_post( $post_id, $post ) {
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		if ( $post->post_type != Odwpp_Project_Post_Type::SLUG ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		$value = filter_input( INPUT_POST, 'project_repository' );
+		if ( ! empty( $value ) ) {
+			update_post_meta( $post_id, self::SLUG, $value );
+		}
+	}
+
+	/**
+	 * @internal Hook for `admin_print_scripts-edit.php` action.
+	 * @return void
+	 * @since 0.2.0
+	 */
+	public static function enqueue_edit_scripts() {
+		wp_enqueue_script(
+			ODWPP_SLUG . '-admin-edit-project_repository',
+			plugins_url( 'assets/js/admin-repository_quickedit.js', ODWPP_FILE ),
+			['jquery', 'inline-edit-post'],
+			'',
+			true
+		);
+	}
 }
 
 endif;
@@ -178,4 +255,7 @@ if ( is_admin() ) {
 	add_action( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_custom_column' , ['Odwpp_Project_Repository_Metabox', 'column_body'], 10, 2 );
 	add_filter( 'manage_edit-' . Odwpp_Project_Post_Type::SLUG . '_sortable_columns', ['Odwpp_Project_Repository_Metabox', 'column_sortable'] );
 	add_action( 'load-edit.php', ['Odwpp_Project_Repository_Metabox', 'column_sort_request'] );
+	add_action( 'quick_edit_custom_box',  ['Odwpp_Project_Repository_Metabox', 'quick_edit'], 10, 2 );
+	add_action( 'save_post', ['Odwpp_Project_Repository_Metabox', 'quick_edit_save_post'], 10, 2 );
+	add_action( 'admin_print_scripts-edit.php', ['Odwpp_Project_Repository_Metabox', 'enqueue_edit_scripts'] );
 }

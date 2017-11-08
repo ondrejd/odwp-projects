@@ -6,6 +6,11 @@
  * @package odwp-projects
  * @since 0.1.0
  */
+
+if( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 ?><div class="project_repository_metabox">
 	<input type="hidden" name="<?=Odwpp_Project_Status_Metabox::NONCE?>" value="<?=$nonce?>">
 	<label for="odwpp-project_repository" class="screen-reader-text"><?php _e( 'URL repozitáře:', ODWPP_SLUG )?></label>

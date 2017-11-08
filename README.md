@@ -46,7 +46,7 @@ If your like this plugin and you want to be maintained and improved more frequen
 ### Requirements
 
 * plugin requires [PHP 7.0][4] at least
-* plugin requires [WordPress 4.6][3] at least
+* plugin requires [WordPress 4.8][3] at least
 
 ### Installation
 
@@ -69,7 +69,7 @@ If your like this plugin and you want to be maintained and improved more frequen
 
 [1]: https://wordpress.org/
 [2]: https://ondrejd.com/
-[3]: https://codex.wordpress.org/Version_4.6
+[3]: https://codex.wordpress.org/Version_4.8
 [4]: https://php.net/
 [5]: https://github.com/ondrejd/odwp-projects
 [6]: https://www.paypal.me/ondrejd

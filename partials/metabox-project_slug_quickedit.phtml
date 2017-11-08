@@ -1,0 +1,24 @@
+<?php
+/**
+ * @author Ondřej Doněk, <ondrejd@gmail.com>
+ * @license https://www.mozilla.org/MPL/2.0/ Mozilla Public License 2.0
+ * @link https://github.com/ondrejd/odwp-projects for the canonical source repository
+ * @package odwp-projects
+ * @since 0.2.0
+ */
+
+if( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+?>
+<fieldset class="inline-edit-col-left">
+	<div class="inline-edit-group">
+		<label>
+			<span class="title"><abbr title="<?php _e( 'Systémový název projektu (tzv. `Slug`).', ODWPP_SLUG )?>"><?php _e( 'Sys. název:', ODWPP_SLUG )?></abbr></span>
+            <span class="input-text-wrap">
+                <input class="regular-text" id="odwpp-project_slug" name="project_slug" placeholder="<?=__( 'odwp-projects', ODWPP_SLUG ) ?>" type="url" value="">
+            </span>
+		</label>
+	</div>
+</fieldset>

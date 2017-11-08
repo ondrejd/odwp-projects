@@ -1,0 +1,24 @@
+<?php
+/**
+ * @author Ondřej Doněk, <ondrejd@gmail.com>
+ * @license https://www.mozilla.org/MPL/2.0/ Mozilla Public License 2.0
+ * @link https://github.com/ondrejd/odwp-projects for the canonical source repository
+ * @package odwp-projects
+ * @since 0.2.0
+ */
+
+if( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+?>
+<fieldset class="inline-edit-col-left">
+	<div class="inline-edit-group">
+		<label>
+			<span class="title"><?php _e( 'Repozitář:', ODWPP_SLUG )?></span>
+			<span class="input-text-wrap">
+                <input class="regular-text" id="odwpp-project_repository" name="project_repository" placeholder="<?=__( 'https://github.com/ondrejd/odwp-projects', ODWPP_SLUG ) ?>" type="url" value="">
+            </span>
+		</label>
+	</div>
+</fieldset>
