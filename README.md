@@ -23,12 +23,14 @@ If your like this plugin and you want to be maintained and improved more frequen
 ## Features
 
 * [custom post type][8] _Project_ with some new metaboxes (_Repository_, _Status_, _System name_)
+* `cs_CZ` and `en_US` localization
 
 ## TODO
 
 - [ ] finish [CPT][8] _Project_ (`0.2.0`)
   - [x] ~~metaboxes: _Repository_, _Status_, _System name_ (`0.2.0`)~~
   - [x] ~~table list: add custom columns with our meta values~~
+  - [ ] table list: allow change our meta values through _quick edit_
   - [ ] would be great if text of the post/project was the same as `README.md` on [GitHub][9] (`extrafeature`)
 - [ ] projects can be attached to the normal posts/pages (as a _tag_?) (`0.2.0`)
 - [ ] __Project's detail page__ (`O.2.0`)
@@ -36,7 +38,7 @@ If your like this plugin and you want to be maintained and improved more frequen
   - [ ] do the same for [BitBucket][10] repositories
 - [ ] administrator could be able to set user rights for accessing projects
 - [ ] extend `README.md` with _Developers_ section about available hooks, templates etc.
-- [ ] Czech and English localization
+- [x] ~~prepare `cs_CZ` and `en_US` localization~~
 - [ ] `README.cz.md`
 
 ## Usage
@@ -54,6 +56,11 @@ If your like this plugin and you want to be maintained and improved more frequen
 * activate plugin __Freelancer projects__
 
 ## ChangeLog
+
+### Version 0.2.0
+
+* Updated table list for [CPT][8] _Project_ (added columns with sorting, quick edit)
+* Added `cs_CZ` and `en_US` locales
 
 ### Version 0.1.0
 

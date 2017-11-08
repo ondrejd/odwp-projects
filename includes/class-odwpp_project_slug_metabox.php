@@ -14,7 +14,7 @@ if ( ! class_exists( 'Odwpp_Project_Slug_Metabox' ) ):
  * @since 0.1.0
  */
 class Odwpp_Project_Slug_Metabox {
-	const SLUG = 'odwp_project_slug_metabox';
+	const SLUG = 'odwpp_project_slug_metabox';
 	const NONCE = 'odwpp-slug-metabox-nonce';
 
 	/**

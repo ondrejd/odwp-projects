@@ -1,0 +1,176 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: odwp-projects\n"
+"POT-Creation-Date: 2017-11-08 08:02+0100\n"
+"PO-Revision-Date: 2017-11-08 08:02+0100\n"
+"Last-Translator: \n"
+"Language-Team: Ondřej Doněk <ondrejd@gmail.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;esc_html;esc_html_e;"
+"esc_html_x:1,2c;esc_attr;esc_attr_e;esc_attr_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+"X-Poedit-SearchPathExcluded-1: assets\n"
+"X-Poedit-SearchPathExcluded-2: languages\n"
+"X-Poedit-SearchPathExcluded-3: lib\n"
+
+#: includes/class-odwpp_project_post_type.php:53
+msgctxt "post type general name"
+msgid "Projekty"
+msgstr "Projects"
+
+#: includes/class-odwpp_project_post_type.php:54
+msgctxt "post type singular name"
+msgid "Vytvořit projekt"
+msgstr "Project"
+
+#: includes/class-odwpp_project_post_type.php:55
+#: includes/class-odwpp_project_post_type.php:58
+msgid "Nový projekt"
+msgstr "New project"
+
+#: includes/class-odwpp_project_post_type.php:56
+msgid "Vytvořit nový projekt"
+msgstr "Add new project"
+
+#: includes/class-odwpp_project_post_type.php:57
+msgid "Upravit projekt"
+msgstr "Edit project"
+
+#: includes/class-odwpp_project_post_type.php:59
+msgid "Zobrazit projekt"
+msgstr "Show project"
+
+#: includes/class-odwpp_project_post_type.php:60
+msgid "Prohledat projekty"
+msgstr "Search projects"
+
+#: includes/class-odwpp_project_post_type.php:61
+msgid "Žádné projekty nebyly nalezeny."
+msgstr "No projects were found."
+
+#: includes/class-odwpp_project_post_type.php:62
+msgid "Žádné projekty nebyly v koši nalezeny."
+msgstr "No projects were found in the Trash."
+
+#: includes/class-odwpp_project_post_type.php:63
+msgid "Všechny projekty"
+msgstr "All projects"
+
+#: includes/class-odwpp_project_post_type.php:64
+msgid "Archív projektů"
+msgstr "Projects archive"
+
+#: includes/class-odwpp_project_post_type.php:65
+msgid "Projekty"
+msgstr "Projects"
+
+#: includes/class-odwpp_project_post_type.php:66
+msgid "Nadřazený projekt:"
+msgstr "Parent project:"
+
+#: includes/class-odwpp_project_post_type.php:72
+msgid "Projekty..."
+msgstr "Projects..."
+
+#: includes/class-odwpp_project_repository_metabox.php:28
+#: includes/class-odwpp_project_repository_metabox.php:108
+msgid "Repozitář"
+msgstr "Repository"
+
+#: includes/class-odwpp_project_repository_metabox.php:126
+msgid "Otevře URL v novém panelu"
+msgstr "Opens URL in a new browser's pane"
+
+#: includes/class-odwpp_project_slug_metabox.php:28
+#: includes/class-odwpp_project_slug_metabox.php:108
+msgid "Systémový název"
+msgstr "System name"
+
+#: includes/class-odwpp_project_status_metabox.php:28
+#: includes/class-odwpp_project_status_metabox.php:108
+msgid "Stav projektu"
+msgstr "Project status"
+
+#: includes/class-odwpp_project_status_metabox.php:127
+#: partials/metabox-project_status.php:14
+msgid "Aktivní"
+msgstr "Active"
+
+#: includes/class-odwpp_project_status_metabox.php:128
+#: partials/metabox-project_status.php:15
+msgid "Neaktivní"
+msgstr "Nonactive"
+
+#: includes/class-odwpp_project_status_metabox.php:129
+#: partials/metabox-project_status.php:16
+msgid "Dokončený"
+msgstr "Finished"
+
+#: includes/class-odwpp_project_status_metabox.php:130
+#: partials/metabox-project_status.php:17
+msgid "Zrušený"
+msgstr "Cancelled"
+
+#: odwp-projects.php:73
+#, php-format
+msgid ""
+"PHP nesplňuje nároky pluginu na minimální verzi (vyžadována nejméně <b>%s</"
+"b>)!"
+msgstr ""
+
+#: odwp-projects.php:84
+#, php-format
+msgid "Je vyžadováno rozšíření PHP <b>%s</b>, to ale není nainstalováno!"
+msgstr ""
+
+#: odwp-projects.php:95
+#, php-format
+msgid ""
+"Plugin vyžaduje vyšší verzi platformy <b>WordPress</b> (minimálně <b>%s</b>)!"
+msgstr ""
+
+#: odwp-projects.php:107
+#, php-format
+msgid "Je vyžadován plugin <b>%s</b>, ten ale není nainstalován!"
+msgstr ""
+
+#: odwp-projects.php:167
+#, php-format
+msgid "<b>%s</b>: "
+msgstr ""
+
+#: partials/metabox-project_repository.php:11
+msgid "URL repozitáře:"
+msgstr "URL of the repository:"
+
+#: partials/metabox-project_repository.php:13
+#, php-format
+msgid ""
+"Vložte URL repozitáře (např. <a href=\"%1$s\" target=\"_blank\">%1$s</a>)."
+msgstr ""
+"Enter URL of the repository (for example <a href=\"%1$s\" target=\"_blank\">"
+"%1$s</a>)."
+
+#: partials/metabox-project_slug.php:11
+msgid "Systémový  název projektu:"
+msgstr "Project's system name:"
+
+#: partials/metabox-project_slug.php:13
+msgid ""
+"Měl by odpovídat trvalému odkazu a zároveň i názvu repozitáře (např. "
+"<strong>odwp-projects</strong>)."
+msgstr ""
+"Should correspond to permanent link and name of the repository (e.g. "
+"<strong>odwp-projects</strong>)."
+
+#: partials/metabox-project_status.php:12
+msgid "Stav projektu:"
+msgstr "Project status:"

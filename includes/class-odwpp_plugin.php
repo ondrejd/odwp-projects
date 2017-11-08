@@ -18,13 +18,6 @@ class Odwpp_Plugin {
 	const VERSION = ODWPP_VERSION;
 
 	/**
-	 * Screens added.
-	 * @since 0.1.0
-	 * @var array
-	 */
-	private static $screens = array();
-
-	/**
 	 * Default options of the plugin.
 	 * @since 0.1.0
 	 * @var array
@@ -38,43 +31,31 @@ class Odwpp_Plugin {
 	 * @uses is_admin()
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', [$this, 'load_textdomain'], 90 );
+		add_action( 'init', [$this, 'init'], 91 );
 
 		if ( is_admin() ) {
-			add_action( 'admin_init', array( $this, 'admin_init' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-			add_action( 'admin_head', array( $this, 'admin_head' ) );
-			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_enqueue_scripts', [$this, 'admin_enqueue_scripts'] );
 		}
 	}
 
 	/**
-	 * Load the required dependencies for this plugin.
-	 *
-	 * Include the following files that make up the plugin:
-	 *
-	 * - {@see Odwpp_Screen_Prototype}. ...
-	 * - {@see Odwpp_Project_Post_Type}. Defines custom post type.
-	 * - {@see Odwpp_Project_Repository_Metabox}. ...
-	 * - {@see Odwpp_Project_Links_Metabox}. ...
-	 * - {@see Odwpp_Project_Slug_Metabox}. ...
-	 * - {@see Odwpp_Project_Status_Taxonomy}. ...
-	 *
 	 * @access private
+ 	 * @internal Load the required dependencies for this plugin.
 	 * @since 0.1.0
 	 */
 	private function load_dependencies() {
+		Odwpp_Plugin::write_log( 'Odwpp_Plugin::load_dependencies' );
+
 		/**
 		 * @var array $files Array with paths of all required source files.
 		 */
-		$files = array(
-			//ODWPP_PATH . 'includes/class-odwpp_screen_prototype.php',
+		$files = [
 			ODWPP_PATH . 'includes/class-odwpp_project_post_type.php',
 			ODWPP_PATH . 'includes/class-odwpp_project_repository_metabox.php',
 			ODWPP_PATH . 'includes/class-odwpp_project_slug_metabox.php',
 			ODWPP_PATH . 'includes/class-odwpp_project_status_metabox.php',
-		);
+		];
 
 		// Load all files
 		foreach ( $files as $file ) {
@@ -83,33 +64,13 @@ class Odwpp_Plugin {
 	}
 
 	/**
-	 * On all screens call method with given name.
-	 *
-	 * Used for calling hook's actions of the existing screens.
-	 * See {@see Odwpp_Plugin::admin_init} for an example how is used.
-	 *
-	 * If method doesn't exist in the screen object it means that screen
-	 * do not provide action for the hook.
-	 *
-	 * @access private
-	 * @param string $method
-	 * @since 0.0.1.0
-	 */
-	private function screens_call_method( $method ) {
-		foreach ( self::$screens as $slug => $screen ) {
-			if ( method_exists( $screen, $method) ) {
-				call_user_func( array( $screen, $method ) );
-			}
-		}
-	}
-
-	/**
 	 * Load text domain for translations.
-	 * @since 0.0.1.0
+	 * @since 0.1.0
 	 * @uses load_plugin_textdomain()
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( self::SLUG, false, self::SLUG . '/languages' );
+		Odwpp_Plugin::write_log( 'Odwpp_Plugin::load_textdomain' );
+		load_plugin_textdomain( ODWPP_SLUG, false, ODWPP_NAME . '/languages' );
 	}
 
 	/**
@@ -122,18 +83,6 @@ class Odwpp_Plugin {
 
 		// Load dependencies
 		$this->load_dependencies();
-
-		// Call action for `init` hook on all screens.
-		$this->screens_call_method( 'init' );
-	}
-
-	/**
-	 * Action for `admin_init` hook.
-	 * @since 0.1.0
-	 */
-	public function admin_init() {
-		// Call action for `admin_init` hook on all screens.
-		$this->screens_call_method( 'admin_init' );
 	}
 
 	/**
@@ -141,35 +90,14 @@ class Odwpp_Plugin {
 	 * @since 0.1.0
 	 */
 	public function admin_enqueue_scripts() {
-		wp_enqueue_style( 'odwpshp-admin-style', plugins_url( 'css/admin.css', __FILE__ ), false );
-		wp_enqueue_script( 'odwpshp-admin-js', plugins_url( 'js/admin.js', __FILE__ ), false );
-
-		// Call action for `admin_enqueue_scripts` hook on all screens.
-		$this->screens_call_method( 'admin_enqueue_scripts' );
-	}
-
-	/**
-	 * Action for `admin_head` hook.
-	 * @since 0.1.0
-	 */
-	public function admin_head() {
-		// Call action for `admin_head` hook on all screens.
-		$this->screens_call_method( 'admin_head' );
-	}
-
-	/**
-	 * Action for `admin_menu` hook.
-	 * @since 0.1.0
-	 */
-	public function admin_menu() {
-		// Call action for `admin_menu` hook on all screens.
-		$this->screens_call_method( 'admin_menu' );
+		wp_enqueue_style( 'odwpp-admin-style', plugins_url( 'assets/css/admin.css', ODWPP_FILE ), false );
+		wp_enqueue_script( 'odwpp-admin-js', plugins_url( 'assets/js/admin.js', ODWPP_FILE ), false );
 	}
 
 	/**
 	 * Returns plugin's options
 	 * @return array
-	 * @since 0.0.1.0
+	 * @since 0.1.0
 	 * @static
 	 * @uses get_option()
 	 * @uses update_option()
@@ -209,7 +137,6 @@ class Odwpp_Plugin {
 	 * @param boolean $null_if_not_exist Optional. Default TRUE.
 	 * @return mixed Returns empty string if option with given key was not found.
 	 * @since 0.1.0
-	 * @static
 	 * @uses get_option()
 	 */
 	public static function get_option( $key, $null_if_not_exist = false ) {
@@ -227,28 +154,15 @@ class Odwpp_Plugin {
 	}
 
 	/**
-	 * Add/register new screen. Is called from the end of screens source files.
-	 * @param Odwpp_Screen_Prototype $creen
-	 * @since 0.0.1.0
-	 * @static
+	 * Helper for writing to the `debug.log` file.
+	 * @param mixed $log
+	 * @return void
+	 * @since 0.2.0
 	 */
-	public static function add_screen( Odwpp_Screen_Prototype $screen ) {
-		self::$screens[$screen->get_slug()] = $screen;
-	}
-
-	/**
-	 * Returns screen with given slug (`NULL` if screen wasn't found).
-	 * @param string $slug
-	 * @return Odwpp_Screen_Prototype
-	 * @since 0.0.1.0
-	 * @static
-	 */
-	public static function get_screen( $slug ) {
-		if ( array_key_exists( $slug, self::$screens ) ) {
-			return self::$screens[$slug];
+	public static function write_log( $log ) {
+		if ( function_exists( 'odwpdl_write_log' ) ) {
+			odwpdl_write_log( $log );
 		}
-
-		return null;
 	}
 } // End of Odwpp_Plugin
 

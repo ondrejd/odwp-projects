@@ -6,7 +6,7 @@
  * Version: 1.0
  * Author: Ondřej Doněk
  * Author URI: http://ondrejd.com/
- * Requires at least: 4.6
+ * Requires at least: 4.8
  * Tested up to: 4.8.3
  *
  * Text Domain: odwpp
@@ -47,7 +47,7 @@ defined( 'ODWPP_FILE' )     || define( 'ODWPP_FILE', __FILE__ );
 defined( 'ODWPP_VERSION' )  || define( 'ODWPP_VERSION', '0.1.0' );
 
 
-if( ! function_exists( 'odwpdl_check_requirements' ) ) :
+if( ! function_exists( 'odwpp_check_requirements' ) ) :
     /**
      * Checks requirements of our plugin.
      * @global string $wp_version
@@ -55,7 +55,7 @@ if( ! function_exists( 'odwpdl_check_requirements' ) ) :
      * @return array
      * @since 0.1.0
      */
-    function odwpdl_check_requirements( array $requirements ) {
+    function odwpp_check_requirements( array $requirements ) {
         global $wp_version;
 
         // Initialize locales
@@ -116,13 +116,13 @@ if( ! function_exists( 'odwpdl_check_requirements' ) ) :
 endif;
 
 
-if( ! function_exists( 'odwpdl_deactivate_raw' ) ) :
+if( ! function_exists( 'odwpp_deactivate_raw' ) ) :
     /**
      * Deactivate plugin by the raw way (it updates directly WP options).
      * @return void
      * @since 1.0.0
      */
-    function odwpdl_deactivate_raw() {
+    function odwpp_deactivate_raw() {
         $active_plugins = get_option( 'active_plugins' );
         $out = [];
         foreach( $active_plugins as $key => $val ) {
@@ -137,9 +137,9 @@ endif;
 
 /**
  * Errors from the requirements check
- * @var array
+ * @var array $odwpp_errs
  */
-$odwpdl_errs = odwpdl_check_requirements( [
+$odwpp_errs = odwpp_check_requirements( [
     'php' => [
         // Enter minimum PHP version you needs
         'version' => '7.0',
@@ -150,7 +150,7 @@ $odwpdl_errs = odwpdl_check_requirements( [
     ],
     'wp' => [
         // Enter minimum WP version you need
-        'version' => '4.6',
+        'version' => '4.8',
         // Enter WP plugins that your plugin needs
         'plugins' => [
             //'woocommerce/woocommerce.php',
@@ -159,19 +159,19 @@ $odwpdl_errs = odwpdl_check_requirements( [
 ] );
 
 // Check if requirements are met or not
-if( count( $odwpdl_errs ) > 0 ) {
-    // Requirements are not met
-    odwpdl_deactivate_raw();
+if( count( $odwpp_errs ) > 0 ) {
+    // Requirements are not met - print errors if we are in WP admin
+    odwpp_deactivate_raw();
 
-    // In administration print errors
     if( is_admin() ) {
-        $err_head = __( '<b>Debug Log Viewer</b>: ', ODWPP_SLUG );
-        foreach( $odwpdl_errs as $err ) {
+        $err_head = sprintf( __( '<b>%s</b>: ', ODWPP_SLUG ), ODWPP_NAME );
+
+        foreach( $odwpp_errs as $err ) {
             printf( '<div class="error"><p>%s</p></div>', $err_head . $err );
         }
     }
 } else {
-    // Requirements are met so initialize the plugin.
+    // Requirements are met - initialize the plugin
     include( ODWPP_PATH . 'includes/class-odwpp_plugin.php' );
 
 	/**

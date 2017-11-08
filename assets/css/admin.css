@@ -8,4 +8,13 @@
  * @since 1.0
  */
 
-/* ... */
+/*
+ * Project statuses.
+ */
+.project-status {
+    font-weight: bold;
+}
+.project-status-active { color: #570ef0; }
+.project-status-nonactive { color: #615f58; }
+.project-status-finished { color: #570ef0; }
+.project-status-cancelled { color: #ff3300; }

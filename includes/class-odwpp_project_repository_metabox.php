@@ -14,7 +14,7 @@ if ( ! class_exists( 'Odwpp_Project_Repository_Metabox' ) ):
  * @since 0.1.0
  */
 class Odwpp_Project_Repository_Metabox {
-	const SLUG = 'odwp_project_repository_metabox';
+	const SLUG = 'odwpp_project_repository_metabox';
 	const NONCE = 'odwpp-repository-metabox-nonce';
 
 	/**

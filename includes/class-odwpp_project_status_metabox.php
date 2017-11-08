@@ -130,7 +130,7 @@ class Odwpp_Project_Status_Metabox {
 			case 'cancelled' : $label = __( 'Zrušený', ODWPP_SLUG ); break;
 		}
 
-		printf( '<span class="%s">%s</span>', 'project_status-' . $status, $label );
+		printf( '<span class="%s">%s</span>', 'project-status project-status-' . $status, $label );
 	}
 
 	/**
