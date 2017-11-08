@@ -125,9 +125,16 @@ class Odwpp_Project_Repository_Metabox {
 		if ( $column != self::SLUG ) {
 			return;
 		}
+
+        $repository = get_post_meta( $post_id , self::SLUG , true );
+
+        if ( empty( $repository ) ) {
+            return;
+        }
+
 		printf(
 			'<a href="%1$s" id="%3$s" target="_blank" title="%2$s">%1$s</a>',
-			get_post_meta( $post_id , self::SLUG , true ),
+			$repository,
 			__( 'Otevře URL v novém panelu', ODWPP_SLUG ),
 			ODWPP_SLUG . '-project_repository-' . $post_id
 		);

@@ -33,6 +33,7 @@ If your like this plugin and you want to be maintained and improved more frequen
   - [ ] ~~table list: allow change our meta values through _quick edit_~~
   - [ ] table list: add help box (about our custom meta values)
   - [ ] table list: add bulk action (for project's status)
+  - [ ] table list: add filters by our meta values
   - [ ] would be great if text of the post/project was the same as `README.md` on [GitHub][9] (`extrafeature`)
 - [ ] projects can be attached to the normal posts/pages (as a _tag_?) (`0.2.0`)
 - [ ] __Project's detail page__ (`O.2.0`)

@@ -126,7 +126,12 @@ class Odwpp_Project_Slug_Metabox {
 			return;
 		}
 
-		$slug = get_post_meta( $post_id , self::SLUG , true );
+        $slug = get_post_meta( $post_id , self::SLUG , true );
+
+        if ( empty( $slug ) ) {
+            return;
+        }
+
 		printf( '<code id="%s">%s</code>', ODWPP_SLUG . '-project_slug-' . $post_id, $slug );
 	}
 

@@ -126,7 +126,16 @@ class Odwpp_Project_Status_Metabox {
 			return;
 		}
 
+        if ( empty( $status ) ) {
+            return;
+        }
+
 		$status = get_post_meta( $post_id , self::SLUG , true );
+
+        if ( empty( $status ) ) {
+            return;
+        }
+
 		$label = '';
 		switch( $status ) {
 			case 'active'    : $label = __( 'Aktivní', ODWPP_SLUG ); break;
