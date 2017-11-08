@@ -136,10 +136,10 @@ class Odwpp_Project_Status_Metabox {
 		}
 
 		printf(
-			'<span id="%s" class="%s">%s</span>',
-			ODWPP_SLUG . '-project_repository-' . $post_id,
+			'<span id="%s" class="%s" data-project_status="%s">%s</span>',
+			ODWPP_SLUG . '-project_status-' . $post_id,
 			'project-status project-status-' . $status,
-			$label
+			$status, $label
 		);
 	}
 

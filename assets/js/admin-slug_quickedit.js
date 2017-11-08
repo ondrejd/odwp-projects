@@ -13,7 +13,7 @@
         }
 
         var $edit_row = $( '#edit-' + $post_id );
-        var $repository = $( '#odwpp-project_slug-' + $post_id ).text();
-        $edit_row.find( 'input[name="project_slug"]' ).val( $repository );
+        var $slug = $( '#odwpp-project_slug-' + $post_id ).text();
+        $edit_row.find( 'input[name="project_slug"]' ).val( $slug );
     };
 } )( jQuery );

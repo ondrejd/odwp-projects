@@ -30,7 +30,9 @@ If your like this plugin and you want to be maintained and improved more frequen
 - [ ] finish [CPT][8] _Project_ (`0.2.0`)
   - [x] ~~metaboxes: _Repository_, _Status_, _System name_ (`0.2.0`)~~
   - [x] ~~table list: add custom columns with our meta values~~
-  - [ ] table list: allow change our meta values through _quick edit_
+  - [ ] ~~table list: allow change our meta values through _quick edit_~~
+  - [ ] table list: add help box (about our custom meta values)
+  - [ ] table list: add bulk action (for project's status)
   - [ ] would be great if text of the post/project was the same as `README.md` on [GitHub][9] (`extrafeature`)
 - [ ] projects can be attached to the normal posts/pages (as a _tag_?) (`0.2.0`)
 - [ ] __Project's detail page__ (`O.2.0`)

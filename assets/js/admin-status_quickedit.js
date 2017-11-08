@@ -13,7 +13,8 @@
         }
 
         var $edit_row = $( '#edit-' + $post_id );
-        var $repository = $( '#odwpp-project_status-' + $post_id ).text();
-        $edit_row.find( 'input[name="project_status"]' ).val( $repository );
+        var $status = $( '#odwpp-project_status-' + $post_id ).data( 'project_status' );
+        console.log($status);
+        $edit_row.find( 'select[name="project_status"]' ).val( $status );
     };
 } )( jQuery );

@@ -14,7 +14,7 @@
 .project-status {
     font-weight: bold;
 }
-.project-status-active { color: #570ef0; }
-.project-status-nonactive { color: #615f58; }
+.project-status-active { color: #5fd527; }
+.project-status-nonactive { color: #285520; }
 .project-status-finished { color: #570ef0; }
 .project-status-cancelled { color: #ff3300; }
