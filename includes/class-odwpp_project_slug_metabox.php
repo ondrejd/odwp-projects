@@ -226,6 +226,7 @@ class Odwpp_Project_Slug_Metabox {
 		}
 
 		$value = filter_input( INPUT_POST, 'project_slug' );
+
 		if ( ! empty( $value ) ) {
 			update_post_meta( $post_id, self::SLUG, $value );
 		}
@@ -250,13 +251,18 @@ class Odwpp_Project_Slug_Metabox {
 endif;
 
 if ( is_admin() ) {
+	// Add/Edit page - add meta box
 	add_action( 'load-post.php', ['Odwpp_Project_Slug_Metabox', 'init'] );
 	add_action( 'load-post-new.php', ['Odwpp_Project_Slug_Metabox', 'init'] );
+	// Save meta box value
 	add_action( 'save_post', ['Odwpp_Project_Slug_Metabox', 'save'], 10, 3 );
+	// Add list table column - head/body
 	add_filter( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_columns', ['Odwpp_Project_Slug_Metabox', 'column_head'] );
 	add_action( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_custom_column' , ['Odwpp_Project_Slug_Metabox', 'column_body'], 10, 2 );
+	// Make our column sortable
 	add_filter( 'manage_edit-' . Odwpp_Project_Post_Type::SLUG . '_sortable_columns', ['Odwpp_Project_Slug_Metabox', 'column_sortable'] );
 	add_action( 'load-edit.php', ['Odwpp_Project_Slug_Metabox', 'column_sort_request'] );
+	// Quick Edit
 	add_action( 'quick_edit_custom_box',  ['Odwpp_Project_Slug_Metabox', 'quick_edit'], 10, 2 );
 	add_action( 'save_post', ['Odwpp_Project_Slug_Metabox', 'quick_edit_save_post'], 10, 2 );
 	add_action( 'admin_print_scripts-edit.php', ['Odwpp_Project_Slug_Metabox', 'enqueue_edit_scripts'] );

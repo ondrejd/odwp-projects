@@ -14,6 +14,6 @@ if( ! defined( 'ABSPATH' ) ) {
 ?><div class="project_repository_metabox">
 	<input type="hidden" name="<?=Odwpp_Project_Status_Metabox::NONCE?>" value="<?=$nonce?>">
 	<label for="odwpp-project_repository" class="screen-reader-text"><?php _e( 'URL repozitáře:', ODWPP_SLUG )?></label>
-	<input type="url" name="project_repository" id="odwpp-project_repository" value="<?=$value?>">
+	<input type="url" name="project_repository" id="odwpp-project_repository" value="<?=$value?>" class="regular-text">
     <p class="description"><?php printf( __( 'Vložte URL repozitáře (např. <a href="%1$s" target="_blank">%1$s</a>).', ODWPP_SLUG ), 'https://github.com/ondrejd/odwp-projects' )?></p>
 </div>
