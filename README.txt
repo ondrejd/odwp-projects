@@ -4,7 +4,7 @@ Donate link:
 Tags: custom type
 Requires at least: 4.6
 Tested up to: 4.7.4
-Stable tag: 1.0
+Stable tag: 0.2.0
 License: Mozilla Public License 2.0
 License URI: https://www.mozilla.org/MPL/2.0/
 

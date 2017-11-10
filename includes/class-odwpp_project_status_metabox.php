@@ -75,6 +75,7 @@ class Odwpp_Project_Status_Metabox {
 	 * @param string $name (Optional.)
 	 * @return string
 	 * @since 0.2.0
+	 * @since 0.2.1 Parameter `$add_empty` added.
 	 */
 	protected function create_select( $value = null, $add_empty = false, $id = ODWPP_SLUG . '-project_status', $name = 'project_status' ) {
 		$statuses = $this->get_statuses();

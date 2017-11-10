@@ -3,7 +3,7 @@
  * Plugin Name: Freelance projects
  * Plugin URI: https://github.com/ondrejd/odwp-projects
  * Description: Plugin for managing and publishing projects on your WordPress sites. It was created to fit my requirements as a freelancer developer but I tried to make it usable for more people.
- * Version: 1.0
+ * Version: 0.2.1
  * Author: Ondřej Doněk
  * Author URI: http://ondrejd.com/
  * Requires at least: 4.8
