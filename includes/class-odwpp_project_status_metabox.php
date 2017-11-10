@@ -69,15 +69,20 @@ class Odwpp_Project_Status_Metabox {
 
 	/**
 	 * Creates HTML with select box with project statuses.
-	 * @param string $id
-	 * @param string $name
 	 * @param null|string $value
+	 * @param boolean $add_empty (Optional.)
+	 * @param string $id (Optional.)
+	 * @param string $name (Optional.)
 	 * @return string
 	 * @since 0.2.0
 	 */
-	protected function create_select( $value = null, $id = ODWPP_SLUG . '-project_status', $name = 'project_status' ) {
+	protected function create_select( $value = null, $add_empty = false, $id = ODWPP_SLUG . '-project_status', $name = 'project_status' ) {
 		$statuses = $this->get_statuses();
 		$html = '<select id="' . $id . '" name="' . $name . '" value="' . ( empty( $value ) ? '' : $value ) . '">';
+
+		if ($add_empty == true) {
+			$html .= '<option value="0" ' . selected( 0, empty( $value ) ? 0 : $value, false ) . '>' . __( '&mdash; Stav projektu &mdash;', ODWPP_SLUG ) . '</option>';
+		}
 
 		foreach( $statuses as $key => $label ) {
 			$html .= '<option value="' . $key . '" ' . selected( $key, $value, false ) . '>' . $label . '</option>';
@@ -110,11 +115,12 @@ class Odwpp_Project_Status_Metabox {
 	 * @uses apply_filters
 	 * @uses get_post_meta
 	 * @uses wp_create_nonce
+	 * @todo Finish NONCE implementation!
 	 */
 	public function render( $project ) {
 		// Variables used in template
 		$value = get_post_meta( $project->ID, self::SLUG, true );
-		$nonce = wp_create_nonce( self::NONCE );
+		// XXX $nonce = wp_create_nonce( self::NONCE );
 
 		// Create output HTML
 		$html = '<div class="project_status_metabox">';
@@ -147,7 +153,7 @@ class Odwpp_Project_Status_Metabox {
 	 * @todo Finish NONCE implementation!
 	 */
 	public function save( $post_id, $post, $update ) {
-		$nonce = filter_input( INPUT_POST, self::NONCE );
+		// XXX $nonce = filter_input( INPUT_POST, self::NONCE );
 
 		// XXX Finish NONCE implementation!
 		//if ( ( bool ) wp_verify_nonce( $nonce, self::NONCE ) !== true ) {
@@ -187,7 +193,7 @@ class Odwpp_Project_Status_Metabox {
 	 * @internal Hook for `manage_project_posts_custom_column` action.
 	 * @param string $column
 	 * @param integer $post_id
-	 * @return array
+	 * @return void
 	 * @since 0.1.0
 	 * @uses get_post_meta
 	 */
@@ -264,14 +270,14 @@ class Odwpp_Project_Status_Metabox {
 	 * @param string $post_type
 	 * @return void
 	 * @since 0.2.0
-	 * @todo Finish NONCE field!
+	 * @todo Finish NONCE implementation!
 	 */
 	public function quick_edit( $column_name, $post_type ) {
 		if ( $column_name != self::SLUG || $post_type != Odwpp_Project_Post_Type::SLUG ) {
 			return;
 		}
 
-		$nonce = wp_create_nonce( self::NONCE );
+		// XXX $nonce = wp_create_nonce( self::NONCE );
 
 		// Create output HTML
 		$html = '<fieldset class="inline-edit-col-left">';
@@ -279,7 +285,7 @@ class Odwpp_Project_Status_Metabox {
 		$html .= '<label>';
 		$html .= '<span class="title"><abbr title="' . __( 'Aktuální stav projektu', ODWPP_SLUG ) . '">' . __( 'Stav:', ODWPP_SLUG ) . '</abbr></span>';
 		$html .= '<span class="input-text-wrap">';
-		$html .= $this->create_select();
+		$html .= $this->create_select( null );
 		$html .= '</span>';
 		$html .= '</div>';
 		$html .= '</fieldset>';
@@ -349,7 +355,7 @@ class Odwpp_Project_Status_Metabox {
 			$status = 0;
 		}
 
-		$html = '<label class="screen-reader-text" for="odwpp-projects_status">' . __( 'Filtrovat podle stavu projektu', ODWPP_SLUG ) . '</label>' . $this->create_select( $status );
+		$html = '<label class="screen-reader-text" for="odwpp-projects_status">' . __( 'Filtrovat podle stavu projektu', ODWPP_SLUG ) . '</label>' . $this->create_select( $status, true );
 
 
 		/**
@@ -368,7 +374,7 @@ class Odwpp_Project_Status_Metabox {
 	 * @internal Hook for `parse_query` action.
 	 * @global string $pagenow
 	 * @param WP_Query $query
-	 * @return WP_Query
+	 * @return void
 	 * @since 0.2.0
 	 */
 	public function filter_request_query( $query ) {
@@ -378,7 +384,7 @@ class Odwpp_Project_Status_Metabox {
 		$project_status = filter_input( INPUT_GET, 'project_status' );
 
 		if ( Odwpp_Project_Post_Type::SLUG == $post_type &&
-		     'edit.php' == $pagenow && ! empty( $project_status ) ) {
+		     'edit.php' === $pagenow && ! empty( $project_status ) ) {
 
 			$query->query_vars['meta_key']     = self::SLUG;
 			$query->query_vars['meta_value']   = $project_status;

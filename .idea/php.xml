@@ -7,5 +7,10 @@
       <path value="$PROJECT_DIR$/../woocommerce" />
     </include_path>
   </component>
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="127.0.0.1" id="b5cba32b-4ee9-461b-8f47-7152e0f9953b" name="Localhost" />
+    </servers>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7" />
 </project>
