@@ -119,12 +119,12 @@ class Odwpp_Project_Status_Metabox {
 	 * @todo Finish NONCE implementation!
 	 */
 	public function render( $project ) {
-		// Variables used in template
 		$value = get_post_meta( $project->ID, self::SLUG, true );
-		// XXX $nonce = wp_create_nonce( self::NONCE );
+		$nonce = wp_create_nonce( self::NONCE );
 
 		// Create output HTML
 		$html = '<div class="project_status_metabox">';
+		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
 		$html .= '<label for="odwpp-project_status" class="screen-reader-text">' . __( 'Stav projektu:', ODWPP_SLUG ) . '</label>';
 		$html .= $this->create_select( $value );
 		$html .= '</div>';
@@ -132,10 +132,9 @@ class Odwpp_Project_Status_Metabox {
 		/**
 		 * Filter for project status meta box.
 		 *
-		 * @since 0.1.0
-		 *
 		 * @param string $output Rendered HTML.
 		 * @param WP_Post $project
+		 * @since 0.1.0
 		 */
 		$output = apply_filters( self::SLUG, $html, $project );
 		echo $output;
@@ -283,6 +282,7 @@ class Odwpp_Project_Status_Metabox {
 		// Create output HTML
 		$html = '<fieldset class="inline-edit-col-left">';
 		$html .= '<div class="inline-edit-group">';
+		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
 		$html .= '<label>';
 		$html .= '<span class="title"><abbr title="' . __( 'Aktuální stav projektu', ODWPP_SLUG ) . '">' . __( 'Stav:', ODWPP_SLUG ) . '</abbr></span>';
 		$html .= '<span class="input-text-wrap">';
@@ -294,9 +294,8 @@ class Odwpp_Project_Status_Metabox {
 		/**
 		 * Filter for project status quick edit box.
 		 *
-		 * @since 0.2.0
-		 *
 		 * @param string $output Rendered HTML.
+		 * @since 0.2.0
 		 */
 		$output = apply_filters( self::SLUG . '_quickedit', $html );
 		echo $output;
@@ -362,10 +361,9 @@ class Odwpp_Project_Status_Metabox {
 		/**
 		 * Filter for project status filter.
 		 *
-		 * @since 0.2.0
-		 *
 		 * @param string $output Rendered HTML.
 		 * @param string $status
+		 * @since 0.2.0
 		 */
 		$output = apply_filters( self::SLUG . '_filter', $html, $status );
 		echo $output;

@@ -44,23 +44,26 @@ class Odwpp_Project_Repository_Metabox {
 	 * @uses apply_filters
 	 * @uses get_post_meta
 	 * @uses wp_create_nonce
+	 * @todo Finish NONCE implementation!
 	 */
 	public static function render( $project ) {
-		// Variables used in template
 		$value = get_post_meta( $project->ID, self::SLUG, true );
 		$nonce = wp_create_nonce( self::NONCE );
 
-		ob_start();
-		include( ODWPP_PATH . 'partials/metabox-project_repository.phtml' );
-		$output = ob_get_clean();
+		$html  = '';
+		$html .= '<div class="project_repository_metabox">';
+		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
+		$html .= '<label for="odwpp-project_repository" class="screen-reader-text">' . __( 'URL repozitáře:', ODWPP_SLUG ) . '</label>';
+		$html .= '<input type="url" name="project_repository" id="odwpp-project_repository" value="' . $value . '" class="regular-text">';
+		$html .= '<p class="description">' . sprintf( __( 'Vložte URL repozitáře (např. <a href="%1$s" target="_blank">%1$s</a>).', ODWPP_SLUG ), 'https://github.com/ondrejd/odwp-projects' ) . '</p>';
+		$html .= '</div>';
 
 		/**
 		 * Filter for project repository meta box.
 		 *
-		 * @since 0.1.0
-		 *
 		 * @param string $output Rendered HTML.
 		 * @param WP_Post $project
+		 * @since 0.1.0
 		 */
 		$output = apply_filters( self::SLUG, $output, $project );
 		echo $output;
@@ -195,16 +198,24 @@ class Odwpp_Project_Repository_Metabox {
 
 		$nonce = wp_create_nonce( self::NONCE );
 
-		ob_start();
-		include( ODWPP_PATH . 'partials/metabox-project_repository_quickedit.phtml' );
-		$output = ob_get_clean();
+		$html  = '';
+		$html .= '<fieldset class="inline-edit-col-left">';
+		$html .= '<div class="inline-edit-group">';
+		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
+		$html .= '<label>';
+		$html .= '<span class="title">' . __( 'Repozitář:', ODWPP_SLUG ) . '</span>';
+		$html .= '<span class="input-text-wrap">';
+        $html .= '<input class="regular-text" id="odwpp-project_repository" name="project_repository" placeholder="' . __( 'https://github.com/ondrejd/odwp-projects', ODWPP_SLUG ) . '" type="url" value="">';
+        $html .= '</span>';
+		$html .= '</label>';
+		$html .= '</div>';
+		$html .= '</fieldset>';
 
 		/**
 		 * Filter for project repository quick edit box.
 		 *
-		 * @since 0.2.0
-		 *
 		 * @param string $output Rendered HTML.
+		 * @since 0.2.0
 		 */
 		$output = apply_filters( self::SLUG . '_quickedit', $output );
 		echo $output;

@@ -35,11 +35,17 @@ If your like this plugin and you want to be maintained and improved more frequen
   - [ ] table list: add bulk action (for project's status)
   - [x] ~~table list: add filters by our meta values~~~~
   - [ ] would be great if text of the post/project was the same as `README.md` on [GitHub][9] (`extrafeature`)
+  - [ ] metabox _Project Type_ - pre-defined value picked from select box. Values are editable in plugin's settings (`0.2.1`)
+  - [ ] metabox _Project Version_ - just simple string (`0.2.1`)
+  - [ ] __BUG__: on Admin > Projects page is link `Views Pages` (left side of _+ Actions_) ... see if we can customize the label of it (e.g. `Views Projects`)
 - [ ] projects can be attached to the normal posts/pages (as a _tag_?) (`0.2.0`)
 - [ ] __Project's detail page__ (`O.2.0`)
   - [ ] if [GitHub][9] repository is attached than show list of issues (or commits or whatever)
   - [ ] do the same for [BitBucket][10] repositories
 - [ ] administrator could be able to set user rights for accessing projects
+- [ ] enable relations between projects - `uses` indicates that one project _uses_ other one, `suceed` indicates that one project is _successor_ of other one and replace the other it
+  - [ ] _Rename relations - these names are really bad_
+  - [ ] _Check for some existing designs of project relationships_
 - [ ] extend `README.md` with _Developers_ section about available hooks, templates etc.
 - [x] ~~prepare `cs_CZ` and `en_US` localization~~
 - [ ] `README.cz.md`

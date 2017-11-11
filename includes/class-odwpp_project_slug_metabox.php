@@ -44,23 +44,26 @@ class Odwpp_Project_Slug_Metabox {
 	 * @uses apply_filters
 	 * @uses get_post_meta
 	 * @uses wp_create_nonce
+	 * @todo Finish NONCE implementation!
 	 */
 	public static function render( $project ) {
-		// Variables used in template
 		$value = get_post_meta( $project->ID, self::SLUG, true );
 		$nonce = wp_create_nonce( self::NONCE );
+		$html  = '';
 
-		ob_start();
-		include( ODWPP_PATH . 'partials/metabox-project_slug.phtml' );
-		$output = ob_get_clean();
+		$html .= '<div class="project_slug_metabox">';
+		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
+		$html .= '<label for="odwpp-project_slug" class="screen-reader-text">' . __( 'Systémový  název projektu:', ODWPP_SLUG ) . '</label>';
+		$html .= '<input type="text" name="project_slug" id="odwpp-project_slug" value="' . $value . '">';
+		$html .= '<p class="description">' . __( 'Měl by odpovídat trvalému odkazu a zároveň i názvu repozitáře (např. <strong>odwp-projects</strong>).', ODWPP_SLUG ) . '</p>';
+		$html .= '</div>';
 
 		/**
 		 * Filter for project slug meta box.
 		 *
-		 * @since 0.1.0
-		 *
 		 * @param string $output Rendered HTML.
 		 * @param WP_Post $project
+		 * @since 0.1.0
 		 */
 		$output = apply_filters( self::SLUG, $output, $project );
 		echo $output;
@@ -190,16 +193,23 @@ class Odwpp_Project_Slug_Metabox {
 
 		$nonce = wp_create_nonce( self::NONCE );
 
-		ob_start();
-		include( ODWPP_PATH . 'partials/metabox-project_slug_quickedit.phtml' );
-		$output = ob_get_clean();
+		$html .= '<fieldset class="inline-edit-col-left">';
+		$html .= '<div class="inline-edit-group">';
+		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
+		$html .= '<label>';
+		$html .= '<span class="title"><abbr title="' . __( 'Systémový název projektu (tzv. `Slug`).', ODWPP_SLUG ) . '">' . __( 'Sys. název:', ODWPP_SLUG ) . '</abbr></span>';
+		$html .= '<span class="input-text-wrap">';
+		$html .= '<input class="regular-text" id="odwpp-project_slug" name="project_slug" placeholder="' . __( 'odwp-projects', ODWPP_SLUG ) . '" type="url" value="">';
+		$html .= '</span>';
+		$html .= '</label>';
+		$html .= '</div>';
+		$html .= '</fieldset>';
 
 		/**
 		 * Filter for project slug quick edit box.
 		 *
-		 * @since 0.2.0
-		 *
 		 * @param string $output Rendered HTML.
+		 * @since 0.2.0
 		 */
 		$output = apply_filters( self::SLUG . '_quickedit', $output );
 		echo $output;
