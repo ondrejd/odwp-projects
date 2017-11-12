@@ -153,7 +153,7 @@ class Odwpp_Project_Status_Metabox {
 	 * @todo Finish NONCE implementation!
 	 */
 	public function save( $post_id, $post, $update ) {
-		// XXX $nonce = filter_input( INPUT_POST, self::NONCE );
+		$nonce = filter_input( INPUT_POST, self::NONCE );
 
 		// XXX Finish NONCE implementation!
 		//if ( ( bool ) wp_verify_nonce( $nonce, self::NONCE ) !== true ) {
@@ -193,7 +193,6 @@ class Odwpp_Project_Status_Metabox {
 	 * @internal Hook for `manage_project_posts_custom_column` action.
 	 * @param string $column
 	 * @param integer $post_id
-	 * @return void
 	 * @since 0.1.0
 	 * @uses get_post_meta
 	 */
@@ -237,7 +236,6 @@ class Odwpp_Project_Status_Metabox {
 
 	/**
 	 * @internal Hook for `load-edit.php` action.
-	 * @return void
 	 * @since 0.1.0
 	 * @uses add_filter
 	 */
@@ -268,7 +266,6 @@ class Odwpp_Project_Status_Metabox {
 	 * @internal Hook for actions `quick_edit_custom_box` and `bulk_edit_custom_box`.
 	 * @param string $column_name
 	 * @param string $post_type
-	 * @return void
 	 * @since 0.2.0
 	 * @todo Finish NONCE implementation!
 	 */
@@ -277,10 +274,9 @@ class Odwpp_Project_Status_Metabox {
 			return;
 		}
 
-		// XXX $nonce = wp_create_nonce( self::NONCE );
-
-		// Create output HTML
-		$html = '<fieldset class="inline-edit-col-left">';
+		$nonce = wp_create_nonce( self::NONCE );
+		$html  = '';
+		$html .= '<fieldset class="inline-edit-col-left">';
 		$html .= '<div class="inline-edit-group">';
 		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
 		$html .= '<label>';
@@ -373,7 +369,6 @@ class Odwpp_Project_Status_Metabox {
 	 * @internal Hook for `parse_query` action.
 	 * @global string $pagenow
 	 * @param WP_Query $query
-	 * @return void
 	 * @since 0.2.0
 	 */
 	public function filter_request_query( $query ) {

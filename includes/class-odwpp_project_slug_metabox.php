@@ -22,15 +22,40 @@ class Odwpp_Project_Slug_Metabox {
 	const NONCE = 'odwpp-slug-metabox-nonce';
 
 	/**
+	 * Constructor.
+	 * @since 0.2.1
+	 */
+	public function __construct() {
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		add_action( 'load-post.php', [$this, 'init'] );
+		add_action( 'load-post-new.php', [$this, 'init'] );
+		// Save meta box value
+		add_action( 'save_post', [$this, 'save'], 10, 3 );
+		// Add list table column - head/body
+		add_filter( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_columns', [$this, 'column_head'] );
+		add_action( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_custom_column' , [$this, 'column_body'], 10, 2 );
+		// Make our column sortable
+		add_filter( 'manage_edit-' . Odwpp_Project_Post_Type::SLUG . '_sortable_columns', [$this, 'column_sortable'] );
+		add_action( 'load-edit.php', [$this, 'column_sort_request'] );
+		// Quick Edit
+		add_action( 'quick_edit_custom_box',  [$this, 'quick_edit'], 10, 2 );
+		add_action( 'save_post', [$this, 'quick_edit_save_post'], 10, 2 );
+		add_action( 'admin_print_scripts-edit.php', [$this, 'enqueue_edit_scripts'] );
+	}
+
+	/**
 	 * @internal Hook for `load-post.php` and `load-post-new.php`. Initializes meta box.
 	 * @since 0.1.0
 	 * @uses add_meta_box
 	 */
-	public static function init() {
+	public function init() {
 		add_meta_box(
 			self::SLUG,
 			__( 'Systémový název', ODWPP_SLUG ),
-			[__CLASS__, 'render'],
+			[$this, 'render'],
 			Odwpp_Project_Post_Type::SLUG,
 			'side',//'normal','side','advanced'
 			'high'//'high','low'
@@ -46,7 +71,7 @@ class Odwpp_Project_Slug_Metabox {
 	 * @uses wp_create_nonce
 	 * @todo Finish NONCE implementation!
 	 */
-	public static function render( $project ) {
+	public function render( $project ) {
 		$value = get_post_meta( $project->ID, self::SLUG, true );
 		$nonce = wp_create_nonce( self::NONCE );
 		$html  = '';
@@ -65,7 +90,7 @@ class Odwpp_Project_Slug_Metabox {
 		 * @param WP_Post $project
 		 * @since 0.1.0
 		 */
-		$output = apply_filters( self::SLUG, $output, $project );
+		$output = apply_filters( self::SLUG, $html, $project );
 		echo $output;
 	}
 
@@ -80,7 +105,7 @@ class Odwpp_Project_Slug_Metabox {
 	 * @uses update_post_meta
 	 * @todo Finish NONCE implementation!
 	 */
-	public static function save( $post_id, $post, $update ) {
+	public function save( $post_id, $post, $update ) {
 		$nonce = filter_input( INPUT_POST, self::NONCE );
 
 		// XXX Finish NONCE implementation!
@@ -112,7 +137,7 @@ class Odwpp_Project_Slug_Metabox {
 	 * @return array
 	 * @since 0.1.0
 	 */
-	public static function column_head( $columns ) {
+	public function column_head( $columns ) {
 		$columns[self::SLUG] = __( 'Systémový název', ODWPP_SLUG );
 		return $columns;
 	}
@@ -124,7 +149,7 @@ class Odwpp_Project_Slug_Metabox {
 	 * @since 0.1.0
 	 * @uses get_post_meta
 	 */
-	public static function column_body( $column, $post_id ) {
+	public function column_body( $column, $post_id ) {
 		if ( $column != self::SLUG ) {
 			return;
 		}
@@ -144,19 +169,18 @@ class Odwpp_Project_Slug_Metabox {
 	 * @return array
 	 * @since 0.1.0
 	 */
-	public static function column_sortable( $columns ) {
+	public function column_sortable( $columns ) {
 		$columns[self::SLUG] = self::SLUG;
 		return $columns;
 	}
 
 	/**
 	 * @internal Hook for `load-edit.php` action.
-	 * @return void
 	 * @since 0.1.0
 	 * @uses add_filter
 	 */
-	public static function column_sort_request() {
-		add_filter( 'request', [__CLASS__, 'column_sort'] );
+	public function column_sort_request() {
+		add_filter( 'request', [$this, 'column_sort'] );
 	}
 
 	/**
@@ -165,7 +189,7 @@ class Odwpp_Project_Slug_Metabox {
 	 * @return array
 	 * @since 0.1.0
 	 */
-	public static function column_sort( $vars ) {
+	public function column_sort( $vars ) {
 		if ( isset( $vars['post_type'] ) && Odwpp_Project_Post_Type::SLUG == $vars['post_type'] ) {
 			if ( isset( $vars['orderby'] ) && self::SLUG == $vars['orderby'] ) {
 				$vars = array_merge( $vars, [
@@ -182,17 +206,16 @@ class Odwpp_Project_Slug_Metabox {
 	 * @internal Hook for actions `quick_edit_custom_box`.
 	 * @param string $column_name
 	 * @param string $post_type
-	 * @return void
 	 * @since 0.2.0
 	 * @todo Add nonce field!
 	 */
-	public static function quick_edit( $column_name, $post_type ) {
+	public function quick_edit( $column_name, $post_type ) {
 		if ( $column_name != self::SLUG || $post_type != Odwpp_Project_Post_Type::SLUG ) {
 			return;
 		}
 
 		$nonce = wp_create_nonce( self::NONCE );
-
+		$html  = '';
 		$html .= '<fieldset class="inline-edit-col-left">';
 		$html .= '<div class="inline-edit-group">';
 		$html .= '<input type="hidden" name="' . Odwpp_Project_Status_Metabox::NONCE . '" value="' . $nonce . '">';
@@ -211,7 +234,7 @@ class Odwpp_Project_Slug_Metabox {
 		 * @param string $output Rendered HTML.
 		 * @since 0.2.0
 		 */
-		$output = apply_filters( self::SLUG . '_quickedit', $output );
+		$output = apply_filters( self::SLUG . '_quickedit', $html );
 		echo $output;
 	}
 
@@ -219,10 +242,9 @@ class Odwpp_Project_Slug_Metabox {
 	 * @internal Hook for `save_post` action (quickedit in list table).
 	 * @param integer $post_id
 	 * @param WP_Post $post
-	 * @return void
 	 * @since 0.2.0
 	 */
-	public static function quick_edit_save_post( $post_id, $post ) {
+	public function quick_edit_save_post( $post_id, $post ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
@@ -244,10 +266,9 @@ class Odwpp_Project_Slug_Metabox {
 
 	/**
 	 * @internal Hook for `admin_print_scripts-edit.php` action.
-	 * @return void
 	 * @since 0.2.0
 	 */
-	public static function enqueue_edit_scripts() {
+	public function enqueue_edit_scripts() {
 		wp_enqueue_script(
 			ODWPP_SLUG . '-admin-edit-project_slug',
 			plugins_url( 'assets/js/admin-slug_quickedit.js', ODWPP_FILE ),
@@ -260,20 +281,7 @@ class Odwpp_Project_Slug_Metabox {
 
 endif;
 
-if ( is_admin() ) {
-	// Add/Edit page - add meta box
-	add_action( 'load-post.php', ['Odwpp_Project_Slug_Metabox', 'init'] );
-	add_action( 'load-post-new.php', ['Odwpp_Project_Slug_Metabox', 'init'] );
-	// Save meta box value
-	add_action( 'save_post', ['Odwpp_Project_Slug_Metabox', 'save'], 10, 3 );
-	// Add list table column - head/body
-	add_filter( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_columns', ['Odwpp_Project_Slug_Metabox', 'column_head'] );
-	add_action( 'manage_' . Odwpp_Project_Post_Type::SLUG . '_posts_custom_column' , ['Odwpp_Project_Slug_Metabox', 'column_body'], 10, 2 );
-	// Make our column sortable
-	add_filter( 'manage_edit-' . Odwpp_Project_Post_Type::SLUG . '_sortable_columns', ['Odwpp_Project_Slug_Metabox', 'column_sortable'] );
-	add_action( 'load-edit.php', ['Odwpp_Project_Slug_Metabox', 'column_sort_request'] );
-	// Quick Edit
-	add_action( 'quick_edit_custom_box',  ['Odwpp_Project_Slug_Metabox', 'quick_edit'], 10, 2 );
-	add_action( 'save_post', ['Odwpp_Project_Slug_Metabox', 'quick_edit_save_post'], 10, 2 );
-	add_action( 'admin_print_scripts-edit.php', ['Odwpp_Project_Slug_Metabox', 'enqueue_edit_scripts'] );
-}
+/**
+ * @var Odwpp_Project_Slug_Metabox $odwpp_project_slug_metabox
+ */
+$odwpp_project_slug_metabox = new Odwpp_Project_Slug_Metabox();
