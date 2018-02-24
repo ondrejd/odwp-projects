@@ -158,17 +158,33 @@ $odwpp_errs = odwpp_check_requirements( [
     ],
 ] );
 
+
+if( ! function_exists( 'odwpp_print_requirements_errors' ) ) :
+    /**
+     * @internal Prints requirements errors.
+     * @global array $odwpp_errs
+     * @since 0.2.0
+     */
+    function odwpp_print_requirements_errors() {
+        global $odwpp_errs;
+
+        $err_head = sprintf( __( '<b>%s</b>: ', ODWPP_SLUG ), ODWPP_NAME );
+
+        foreach( $odwpp_errs as $err ) {
+            $msg = $err_head . $err;
+            printf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', $msg );
+        }
+    }
+endif;
+
+
 // Check if requirements are met or not
 if( count( $odwpp_errs ) > 0 ) {
     // Requirements are not met - print errors if we are in WP admin
     odwpp_deactivate_raw();
 
     if( is_admin() ) {
-        $err_head = sprintf( __( '<b>%s</b>: ', ODWPP_SLUG ), ODWPP_NAME );
-
-        foreach( $odwpp_errs as $err ) {
-            printf( '<div class="error"><p>%s</p></div>', $err_head . $err );
-        }
+        add_action( 'admin_notices', 'odwpp_print_requirements_errors' );
     }
 } else {
     // Requirements are met - initialize the plugin
